@@ -1,0 +1,21 @@
+.form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.btn-login,.btn-register{
+  @apply
+    bg-red-500
+    hover:bg-red-400
+    text-white
+}
+.form-grid{
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(230px,1fr));
+  @apply
+    gap-1
+}
+.quill{
+  @apply
+    w-full
+}

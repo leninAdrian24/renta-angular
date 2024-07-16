@@ -1,0 +1,179 @@
+<div class="flex gap-4 mt-4">
+  @if(btnCreate){
+    <button mat-mini-fab class="button-add" matTooltip="new create" [routerLink]="route+'create'" >
+      <mat-icon>add</mat-icon>
+    </button>
+  }
+  <button mat-mini-fab [class]="this.statusInactive ? 'button-active':'button-inactive'" (click)="dataStatus()" [matTooltip]="this.statusInactive ? 'Active' :'Inactive'">
+    @if(this.statusInactive){
+      <mat-icon>check</mat-icon>
+    }@else{
+      <mat-icon>block</mat-icon>
+    }
+  </button>
+</div>
+<div class="flex flex-col md:flex-row justify-between mt-5">
+  <mat-form-field appearance="fill" class="md:grid-cols-">
+    <mat-label>Campos Visibles</mat-label>
+    <mat-select [(value)]="selectedOptions" multiple (selectionChange)="onSelectionChange($event)">
+      <mat-select-trigger>
+        {{selectedOptions.length}} opción(es) seleccionada(s)
+      </mat-select-trigger>
+      @for (column of columns; track $index) {
+        <mat-option [value]="column">{{ fields[column] }}</mat-option>
+      }
+      <mat-option value="reset">Reset</mat-option>
+    </mat-select>
+  </mat-form-field>
+  <div class="flex justify-between mb-5 items-center gap-8">
+    <button mat-mini-fab class="btn-green" matTooltip="Excel">
+      <!-- <mat-icon>description</mat-icon>  -->
+      <mat-icon svgIcon="excel"></mat-icon>
+
+    </button>
+    <button mat-mini-fab class="btn-red" matTooltip="PDF | Reporte">
+      <mat-icon svgIcon="pdf"></mat-icon>
+    </button>
+    <button mat-mini-fab class="btn-blue" matTooltip="Copiar">
+      <!-- <mat-icon> insert_drive_file</mat-icon> -->
+      <mat-icon>content_copy</mat-icon>
+    </button>
+    <button mat-mini-fab class="btn-yellow" matTooltip="Imprimir">
+      <mat-icon>local_printshop</mat-icon>
+    </button>
+    <button mat-mini-fab class="btn-purple" matTooltip="CSV">
+      <mat-icon svgIcon="csv"></mat-icon>
+    </button>
+  </div>
+  <div class="grid grid-cols-2 gap-8 w-100">
+    <mat-form-field>
+      <mat-label>Search</mat-label>
+      <input matInput (keyup)="applyFilter($event)"  placeholder="Ex. ium" #input>
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>Field Search</mat-label>
+      <mat-select [(value)]="filterOptions" (selectionChange)="onSearchChange($event)">
+        @for (column of columnsFilter; track column) {
+          <mat-option [value]="column">{{fields[column]}}</mat-option>
+        }
+        <mat-option [disabled]="reset">Reset Field Search</mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
+</div>
+<div class="example-container mat-elevation-z8">
+  @if (isLoadingResults || isRateLimitReached || data().length == 0 ) {
+    <div class="example-loading-shade">
+      @if (isLoadingResults) {
+        <mat-spinner></mat-spinner>
+      }@else if (isRateLimitReached) {
+        <div class="example-rate-limit-reached">
+          Dejo de funcionar la coneccion con la base de datos;
+        </div>
+      }
+      @else{
+        <p>No hay resultados</p>
+      }
+    </div>
+  }
+  <div class="example-table-container border">
+    <table mat-table [dataSource]="data()" class="example-table" matSort matSortActive="id"  matSortDisableClear matSortDirection="asc">
+      @for (column of columns; track $index) {
+        @switch (column) {
+          @case ('position') {
+            <ng-container [matColumnDef]="column">
+              <th mat-header-cell *matHeaderCellDef disableClear>{{fields[column]}}</th>
+              <td mat-cell *matCellDef="let row;let i = index"> {{i+1}}</td>
+            </ng-container>
+          }
+          @case ('id') {
+            <ng-container [matColumnDef]="column">
+              <th  mat-header-cell *matHeaderCellDef mat-sort-header>{{fields[column]}}</th>
+              <td mat-cell *matCellDef="let row">{{row[column]}}</td>
+            </ng-container>
+          }
+          @case ('status') {
+            <ng-container [matColumnDef]="column">
+              <th  mat-header-cell *matHeaderCellDef mat-sort-header>{{fields[column]}}</th>
+              <td mat-cell *matCellDef="let row"><span [class]="row[column]=='active' ? 'status-active' :'status-inactive'">{{row[column] | transformDataTable:column}}</span></td>
+            </ng-container>
+          }
+          @case('profile'){
+            <ng-container [matColumnDef]="column">
+              <th  mat-header-cell *matHeaderCellDef mat-sort-header>{{fields[column]}}</th>
+              <td mat-cell *matCellDef="let row">
+                <img [src]="row[column]" alt="Image profile" class="rounded-full py-1 m-auto w-[60px] h-[60px]">
+              </td>
+            </ng-container>
+          }
+          @case('image'){
+            <ng-container [matColumnDef]="column">
+              <th  mat-header-cell *matHeaderCellDef mat-sort-header>{{fields[column]}}</th>
+              <td mat-cell *matCellDef="let row">
+                <img [src]="row[column]" alt="Image profile" class="rounded-full py-1 m-auto w-[60px] h-[60px]">
+              </td>
+            </ng-container>
+            
+          }
+          @case('address'){
+            <ng-container [matColumnDef]="column">
+              <th  mat-header-cell *matHeaderCellDef mat-sort-header>{{fields[column]}}</th>
+              <td mat-cell *matCellDef="let row" >
+                <div [innerHtml]="row[column] | transformDataTable:column"></div>
+              </td>
+            </ng-container>
+          }
+          @case('brand'){
+            <ng-container [matColumnDef]="column">
+              <th  mat-header-cell *matHeaderCellDef mat-sort-header>{{fields[column]}}</th>
+              <td mat-cell *matCellDef="let row">
+              {{row[column].brand | transformDataTable:column}}
+              </td>
+            </ng-container>
+          }
+          @case('type_car'){
+            <ng-container [matColumnDef]="column">
+              <th  mat-header-cell *matHeaderCellDef mat-sort-header>{{fields[column]}}</th>
+              <td mat-cell *matCellDef="let row">
+              {{row[column].type | transformDataTable:column}}
+              </td>
+            </ng-container>
+          }
+          <!-- @case('date'){
+            <ng-container [matColumnDef]="column">
+              <th  mat-header-cell *matHeaderCellDef mat-sort-header>{{fields[column]}}</th>
+              <td mat-cell *matCellDef="let row">{{row[column] | transformDataTable:column}}</td>
+            </ng-container>
+          } -->
+          @default {
+            <ng-container [matColumnDef]="column">
+              <th  mat-header-cell *matHeaderCellDef mat-sort-header>{{fields[column]}}</th>
+              <td mat-cell *matCellDef="let row">
+              {{row[column] | transformDataTable:column}}
+              </td>
+            </ng-container>
+          }
+          @case ('actions') {
+            <ng-container [matColumnDef]="column">
+              <th  mat-header-cell *matHeaderCellDef class="align-header">Actions</th>
+              <td mat-cell *matCellDef="let row" class="w-cell">
+                <div class="flex flex-col items-center gap-4 py-2 sm:flex-row sm:justify-between">
+                  <button mat-mini-fab class="button-edit" [routerLink]="route+'edit/'+ row.id" matTooltip="Edit">
+                    <mat-icon>edit</mat-icon>
+                  </button>
+                  <button mat-mini-fab class="button-delete" (click)="delete(row.id)" matTooltip="Delete">
+                    <mat-icon>delete</mat-icon>
+                  </button>
+                </div>
+              </td>
+            </ng-container>
+          }
+        }
+      }
+      <tr mat-header-row *matHeaderRowDef="displayedColumns;sticky: true"></tr>
+      <tr mat-row *matRowDef="let row; columns:displayedColumns;"></tr>
+    </table>
+  </div>
+  <mat-paginator [length]="resultsLength"  [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons aria-label="Select page of periodic elements"></mat-paginator>
+</div>
+

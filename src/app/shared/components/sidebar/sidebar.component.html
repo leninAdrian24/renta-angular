@@ -1,0 +1,47 @@
+<aside>
+  <mat-list role="list">
+    <mat-list-item role="listitem" routerLinkActive="active" class="list-item">
+      <div (click)="drawer.toggle()" [routerLink]="'/users/profile'"  class="flex flex-row items-center my-3 cursor-pointer ms-6" >
+        <img src="img/avatar.svg" alt="Avatar" class="w-12">
+        <span class="ps-3 text-white">{{username}}</span>
+      </div>
+    </mat-list-item>
+    @for (menu of menuItems; track $index) {
+      @if(!menu.children){
+        <mat-list-item role="listitem" [routerLink]="menu.routerLink" routerLinkActive="active" class="link list-item" (click)="drawer.toggle()">
+          <div class="flex">
+            <mat-icon class="text-white">{{menu.icon}}</mat-icon>
+            <span class="ms-3 text-white">{{menu.label}}</span>
+          </div>
+        </mat-list-item>
+      }@else {
+        <mat-list-item role="listitem" class="link list-item" (click)="toggleDropdown(menu.dropdownKey)" routerLinkActive="active">
+          <div class="flex justify-between">
+            <div class="flex">
+              <mat-icon class="text-white">{{menu.icon}}</mat-icon>
+              <span class="ms-3 text-white">
+                {{menu.label}}
+              </span>
+            </div>
+            <mat-icon matListIcon class="text-white">{{dropdownStates[menu.dropdownKey!] ? 'expand_less':'expand_more' }}</mat-icon>
+          </div>
+        </mat-list-item>
+        @if(dropdownStates[menu.dropdownKey!]){
+          <mat-list>
+            @for (child of menu.children; track $index){
+              <mat-list-item role="listitem" class="link list-item" [routerLink]="child.routerLink" (click)="drawer.toggle();toggleDropdown(child.dropdownKey)" routerLinkActive="active">
+                <div class="flex justify-between">
+                  <div class="flex">
+                    <span class="ms-9 text-white">
+                      {{child.label}}
+                    </span>
+                  </div>
+                </div>
+              </mat-list-item>
+            }
+          </mat-list>
+        }
+      }
+    }
+  </mat-list>
+</aside>

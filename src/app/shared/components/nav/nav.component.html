@@ -1,0 +1,39 @@
+<mat-drawer-container class="example-container" fullscreen>
+  <mat-drawer #drawer class="example-sidenav drawer" mode="over">
+    <mat-toolbar class="toolbar justify-between">
+      <div class="flex items-center">
+        <button mat-mini-fab class="btn-menu"  (click)="drawer.toggle()">
+          <mat-icon>menu</mat-icon>
+        </button>
+        <span class="ms-7">Vida Informatico</span>
+      </div>
+    </mat-toolbar>
+    <app-sidebar [drawer]="drawer"></app-sidebar>
+  </mat-drawer>
+  <div class="example-sidenav-content">
+    <mat-toolbar class="toolbar justify-between">
+      <div class="flex items-center">
+        <button mat-mini-fab class="btn-menu"  (click)="toggleDrawer()">
+          <mat-icon>menu</mat-icon>
+        </button>
+        <span class="ms-7 cursor-pointer" routerLink="/dashboard">Vida Informatico</span>
+      </div>
+      <div class="flex items-center">
+        <span class="bg-green-700 text-sm mr-3 px-2 py-1 rounded-md">
+          En linea
+        </span>
+        <button mat-mini-fab class="btn-menu" [matMenuTriggerFor]="menu">
+          <mat-icon>person</mat-icon>
+        </button>
+        <span class="text-sm ms-2"> {{role | transformDataTable:''}}</span>
+        <mat-menu #menu="matMenu">
+          <button mat-menu-item [routerLink]="'/users/profile'">Perfil</button>
+          <button mat-menu-item (click)="close()">Cerrar Session</button>
+        </mat-menu>
+      </div>
+    </mat-toolbar>
+    <router-outlet></router-outlet>
+  </div>
+
+</mat-drawer-container>
+

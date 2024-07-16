@@ -1,0 +1,13 @@
+.example-card {
+  max-width: 450px;
+}
+.toolbar{
+  @apply
+    bg-red-500
+    text-white
+    rounded-t-md
+}
+.example-header-image {
+  background-image: url('https://material.angular.io/assets/img/examples/shiba1.jpg');
+  background-size: cover;
+}

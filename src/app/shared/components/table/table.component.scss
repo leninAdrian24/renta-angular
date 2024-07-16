@@ -1,0 +1,178 @@
+/* Structure */
+.example-container {
+  position: relative;
+}
+
+.example-table-container {
+  position: relative;
+  min-height: 300px;
+  max-height: 400px;
+  overflow: auto;
+}
+
+table {
+  width: 100%;
+}
+
+.example-loading-shade {
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 56px;
+  right: 0;
+  background: rgba(0, 0, 0, 0.15);
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.example-rate-limit-reached {
+  max-width: 360px;
+  text-align: center;
+}
+
+/* Column Widths */
+.mat-column-number,
+.mat-column-state {
+  max-width: 64px;
+}
+
+.mat-column-created {
+  max-width: 124px;
+}
+.mat-mdc-header-row{
+  @apply
+    bg-cyan-400
+    text-white
+}
+.mat-mdc-header-cell{
+  @apply
+    border-r-2
+    border-b-2
+    border-[#d6d6d6]
+}
+.mat-mdc-row {
+  @apply
+    border-b-2
+    border-b-[#d6d6d6]
+}
+.mat-mdc-cell{
+  @apply
+    border-r-2
+    border-r-[#d6d6d6]
+}
+// .mat-header-cell{
+//   @apply
+//     border-r-2
+//     border-b-red-200
+//     border-[#d6d6d6]
+// }
+// .mat-mdc-cell{
+//   @apply
+//     border-r-2
+//     border-b-2
+//     border-[#d6d6d6]
+// }
+/* Estilos para el mat-form-field */
+// .example-container-select {
+//   display: flex;
+//   align-items: center;
+//   justify-content: flex-end;
+//   margin-bottom: 10px;
+// }
+
+/* Estilos para el mat-select */
+mat-select {
+  min-width: 120px; /* Ajusta el ancho mínimo según tus necesidades */
+}
+.btn-green{
+  @apply
+    bg-green-700
+    hover:bg-green-500
+    text-white
+}
+.btn-red{
+  @apply
+    bg-red-700
+    hover:bg-red-500
+    text-white
+}
+.btn-blue{
+  @apply
+    bg-blue-700
+    hover:bg-blue-500
+    text-white
+}
+.btn-yellow{
+  @apply
+    bg-yellow-500
+    hover:bg-yellow-300
+    text-white
+}
+.btn-purple{
+  @apply
+    bg-purple-700
+    hover:bg-purple-500
+    text-white
+}
+.button-add{
+  @apply
+    bg-green-600
+    text-white
+    hover:bg-green-400
+}
+.button-inactive{
+  @apply
+    bg-orange-600
+    text-white
+    hover:bg-orange-400
+}
+.button-active{
+  @apply
+    bg-lime-500
+    text-white
+    hover:bg-lime-300
+}
+.button-edit{
+  @apply
+    bg-blue-600
+    text-white
+    hover:bg-blue-400
+}
+.button-delete{
+  @apply
+    bg-red-600
+    text-white
+    hover:bg-red-400
+}
+.w-cell{
+  @apply
+    w-[100px]
+    sm:w-[150px]
+}
+.align-header{
+  @apply
+    text-center
+}
+.status-active{
+  @apply
+    bg-green-700
+    text-white 
+      px-3 
+      py-1 
+      rounded-lg 
+      font-semibold 
+      text-sm
+}
+
+.status-inactive{
+  @apply
+    bg-red-700
+    text-white 
+      px-3 
+      py-1 
+      rounded-lg 
+      font-semibold 
+      text-sm
+}

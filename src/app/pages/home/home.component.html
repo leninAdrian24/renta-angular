@@ -1,0 +1,39 @@
+<main class="container m-auto mt-3 ">
+  <section class="grid grid-templates gap-2">
+    @for (card of cards; track $index) {
+      <article [class]="card.borderColor" class="border  rounded-xl hover:cursor-pointer relative mt-5" [routerLink]="card.routerLink">
+        <div [class]="card.backgroundColor" class="h-[25px] max-w-32 text-white rounded-lg flex justify-center items-center p-2 absolute top-[-15px] left-1/2 transform -translate-x-1/2">
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" [class]="card.svgClass" viewBox="0 0 16 16">
+            <path [attr.d]="card.svgPath"/>
+          </svg>
+          <span class="ps-2">{{card.count}}</span>
+        </div>
+        <div [class]="card.textColor" class="flex justify-start items-end py-2 ps-6">
+          <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" fill="currentColor" [class]="card.svgClass" viewBox="0 0 16 16">
+            <path [attr.d]="card.svgPath"/>
+          </svg>
+          <span class="mb-1 ps-2">{{card.title}}</span>
+        </div>
+        <div [class]="card.backgroundColor" class="h-[40px] rounded-b-xl flex items-center justify-between px-4">
+          <span class="hover:underline text-white">See Details</span>
+          <button mat-icon-button>
+            <mat-icon class="text-white">keyboard_arrow_right</mat-icon>
+          </button>
+        </div>
+      </article>
+    }
+  </section>
+  <section>
+    <article class="my-swiper-container">
+      <swiper-container slides-per-view="auto" speed="500" loop="true" class="py-3"  navigation="true" >
+        @for (img of sliderImages; track $index) {
+          <swiper-slide >
+            <img [src]="img" class="w-full 2xl:h-[690px] xl:h-[380px] rounded-3xl" alt=" imagenes del dashboard">
+          </swiper-slide>
+          }
+      </swiper-container>
+      <swiper-navigation></swiper-navigation>
+      <swiper-pagination></swiper-pagination>
+    </article>
+  </section>
+</main>

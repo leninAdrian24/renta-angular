@@ -1,0 +1,16 @@
+.toolbar{
+  @apply
+    bg-slate-800
+    text-white
+}
+.btn-menu{
+  @apply
+    bg-slate-600
+    hover:bg-slate-500
+    text-white
+}
+.drawer{
+  @apply
+    bg-slate-700
+    text-white
+}

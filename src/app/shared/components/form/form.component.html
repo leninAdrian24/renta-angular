@@ -1,0 +1,149 @@
+<form class="form w-full" (ngSubmit)="Form()" [formGroup]="form">
+  <div class="w-full form-grid">
+    <!-- <mat-form-field appearance="fill">
+      <mat-label>Seleccionar archivo</mat-label>
+      <input matInput type="file" (change)="onFileSelected($event)" formControlName="fileInput">
+    </mat-form-field> -->
+      @for (control of fieldsForm; track $index) {
+        <div>
+          @switch (control.type) {
+            @case ('select') {
+              <mat-form-field class="w-full">
+                <mat-label>{{control.label}}</mat-label>
+                <mat-select [formControlName]="control.name">
+                  @for (option of control.options; track option) {
+                    <mat-option [value]="option.value">{{option.label}}</mat-option>
+                  }
+                </mat-select>
+              </mat-form-field>
+            }
+            @case ('date') {
+              <mat-form-field class="example-full-width w-full">
+                <mat-label>{{control.label}}</mat-label>
+                <input matInput [matDatepicker]="picker" [formControlName]="control.name">
+                <mat-hint>MM/DD/YYYY</mat-hint>
+                <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+                <mat-datepicker #picker></mat-datepicker>
+              </mat-form-field>
+            }
+            @case('file'){
+              <mat-form-field class="w-full">
+                <mat-label>Selecciona un archivo (solo .xlsx y .txt)</mat-label>
+                <input type="file" (change)="onFileSelected($event)" #fileInput accept=".xlsx" hidden/>
+                <input matInput [value]="nombreArchivo" readonly (click)="fileInput.click()"/>
+                <button type="button" mat-icon-button (click)="fileInput.click()" matSuffix>
+                  <mat-icon>folder_open</mat-icon>
+                </button>
+              </mat-form-field>
+            }
+            @case ('password') {
+              @if(control.maxLength) {
+                <mat-form-field appearance="fill" class="w-full" [hintLabel]="'Max '+control.maxLength+' characters'">
+                  <mat-label>{{control.label}}</mat-label>
+                  <input matInput [type]="hidePassword ? 'password' : 'text'" [placeholder]="control.label" [formControlName]="control.name" [maxlength]="control.maxLength || 0">
+                  <button mat-icon-button matSuffix type="button" (click)="togglePasswordVisibility()" >
+                    <mat-icon>{{hidePassword ? 'visibility_off' : 'visibility'}}</mat-icon>
+                  </button>
+                  <mat-hint  align ="end">{{form.get(control.name)?.value.length}}/{{control.maxLength}}</mat-hint>
+                </mat-form-field>
+              }@else {
+                <mat-form-field appearance="fill" class="w-full">
+                  <mat-label>{{control.label}}</mat-label>
+                  <input matInput [type]="hidePassword ? 'password' : 'text'" [placeholder]="control.label" [formControlName]="control.name">
+                  <button mat-icon-button matSuffix type="button" (click)="togglePasswordVisibility()" >
+                    <mat-icon>{{hidePassword ? 'visibility_off' : 'visibility'}}</mat-icon>
+                  </button>
+                </mat-form-field>
+              }
+            }
+            @case('tel'){
+              <mat-form-field class="w-full" [hintLabel]="'Max '+control.maxLength+' characters'">
+                <mat-label>Telephone</mat-label>
+                <span matTextPrefix>+1 &nbsp;</span>
+                <input type="tel" matInput placeholder="555-555-1234" [formControlName]="control.name" [maxlength]="control.maxLength || 0" >
+                <mat-icon matSuffix>mode_edit</mat-icon>
+                @if (control.maxLength) {
+                  <mat-hint  align ="end">{{form.get(control.name)?.value.length}}/{{control.maxLength}}</mat-hint>
+                }
+              </mat-form-field>
+            }
+            @case('richtext'){
+              <quill-editor [modules]="mdoulesQuill" class="w-full" placeholder="Dirección" [formControlName]="control.name" style="width:100%"></quill-editor>
+            }
+            @case ('email') {
+              <mat-form-field class="w-full">
+                <mat-label>{{control.label}}</mat-label>
+                <input matInput [type]="control.type"[formControlName]="control.name">
+              </mat-form-field>
+            }
+            @default {
+              <mat-form-field class="w-full" [hintLabel]="'Max '+control.maxLength+' characters'">
+                <mat-label>{{control.label}}</mat-label>
+                <input matInput [type]="control.type"[formControlName]="control.name" [maxlength]="control.maxLength || 0" >
+                <mat-hint  align ="end">{{form.get(control.name)?.value.length}}/{{control.maxLength}}</mat-hint>
+              </mat-form-field>
+            }
+          }
+          @if (form.get(control.name)?.invalid && (form.get(control.name)?.dirty || form.get(control.name)?.touched || submit)) {
+            <div class="text-red-500">
+              @if(form.get(control.name)?.hasError('required')){
+                <div>
+                  {{control.messageRequired}}
+                </div>
+              }
+              @if(form.get(control.name)?.hasError('minlength')){
+                <div>
+                  {{control.messageMinLength}}
+                </div>
+              }
+              @if(form.get(control.name)?.hasError('maxlength')){
+                <div>
+                  {{control.messageMaxLength}}
+                </div>
+              }
+              @if(form.get(control.name)?.hasError('email')){
+                <div>
+                  {{control.messageEmail}}
+                </div>
+              }
+              @if(form.get(control.name)?.hasError('pattern')){
+                <div>
+                  {{control.messagePattern}}
+                </div>
+              }
+            </div>
+          }
+        </div>
+      }
+    </div>
+    @if(formName == 'login'){
+      <button class="m-auto" [class]="btnColor" mat-fab extended >
+        <mat-icon>exit_to_app</mat-icon>
+        Login
+      </button>
+    }@else if(formName == 'register'){
+      <div class="flex justify-between w-full mt-5">
+        <button class="m-auto" [class]="btnColor" mat-fab extended >
+          Register
+          <mat-icon svgIcon="userRegister"></mat-icon>
+        </button>
+        <a type="button" routerLink="/auth/login" class="m-auto" [class]="btnColor" mat-fab extended >
+          <mat-icon>exit_to_app</mat-icon>
+          Log in
+        </a>
+      </div>
+      <!-- <button class="m-auto" [class]="btnColor" mat-fab extended >
+        Register
+        <mat-icon svgIcon="entry"></mat-icon>
+      </button>
+      <button class="m-auto" [class]="btnColor" mat-fab extended >
+        Register
+        <mat-icon svgIcon="entry2"></mat-icon>
+      </button> -->
+    }@else {
+      <button class="m-auto" [class]="btnColor" mat-fab extended >
+        Register
+        <mat-icon svgIcon="folder"></mat-icon>
+      </button>
+    }
+</form>

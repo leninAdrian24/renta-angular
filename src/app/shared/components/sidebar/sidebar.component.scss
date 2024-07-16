@@ -1,0 +1,16 @@
+.list-item{
+  @apply
+    hover:bg-slate-500
+    rounded-md
+    mt-1
+}
+.list-tree{
+  @apply
+    hover:bg-slate-500
+    rounded-md
+    mt-1
+}
+.active{
+  @apply
+    bg-slate-500
+}
