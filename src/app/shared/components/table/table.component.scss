@@ -62,30 +62,6 @@ table {
     border-r-2
     border-r-[#d6d6d6]
 }
-// .mat-header-cell{
-//   @apply
-//     border-r-2
-//     border-b-red-200
-//     border-[#d6d6d6]
-// }
-// .mat-mdc-cell{
-//   @apply
-//     border-r-2
-//     border-b-2
-//     border-[#d6d6d6]
-// }
-/* Estilos para el mat-form-field */
-// .example-container-select {
-//   display: flex;
-//   align-items: center;
-//   justify-content: flex-end;
-//   margin-bottom: 10px;
-// }
-
-/* Estilos para el mat-select */
-mat-select {
-  min-width: 120px; /* Ajusta el ancho mínimo según tus necesidades */
-}
 .btn-green{
   @apply
     bg-green-700
