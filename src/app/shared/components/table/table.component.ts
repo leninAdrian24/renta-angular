@@ -98,16 +98,18 @@ export class TableComponent implements AfterViewInit, OnInit {
           if (result) {
             let items: any = result[this.tableName].data;
             data = items.map((item: any) => {
+              
               let { id, attributes } = item;
-              if (this.tableName == 'users') {
+              if (this.tableName == 'usersPermissionsUsers') {
                 let { profile, ...rest } = attributes;
                 return {
                   id: id,
-                  profile:profile.data[0].attributes.url ? `http://127.0.0.1:1337${attributes.profile.data[0].attributes.url}` : 'img/avatar.svg',
+                  profile: profile && profile.data.length > 0 ? `https://renta-strapi.onrender.com${attributes.profile.data[0].attributes.url}` : 'img/avatar.svg',
                   ...rest,
                 }
-              } else if (this.tableName == 'cars') {
+              } else if(this.tableName == 'cars') {
                 const {brand, type_car,image,...rest} = attributes;
+                
                 return {
                   id: id,
                   brand: 
@@ -126,10 +128,11 @@ export class TableComponent implements AfterViewInit, OnInit {
                       id:0,
                       type:''
                     },
-                  image:image.data[0].attributes.url ? `http://127.0.0.1:1337${image.data[0].attributes.url}` : 'img/avatar.svg',
+                  image:image.data[0].attributes.url ? `https://renta-strapi.onrender.com${image.data[0].attributes.url}` : 'img/avatar.svg',
                   ...rest,
                 }
               }else{
+                console.log('brand')
                 return {
                   id: item.id,
                   ...item.attributes,
@@ -153,7 +156,7 @@ export class TableComponent implements AfterViewInit, OnInit {
           //     if(attributes.profile){
           //       let {profile,...rest} = attributes;
           //       if(profile && profile.data[0]){
-          //         profile = `http://127.0.0.1:1337${profile.data[0].attributes.url}`;
+          //         profile = `https://renta-strapi.onrender.com${profile.data[0].attributes.url}`;
           //         return {
           //           id: id,
           //           profile: profile ,

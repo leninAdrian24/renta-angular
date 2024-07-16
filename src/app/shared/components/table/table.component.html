@@ -127,7 +127,11 @@
             <ng-container [matColumnDef]="column">
               <th  mat-header-cell *matHeaderCellDef mat-sort-header>{{fields[column]}}</th>
               <td mat-cell *matCellDef="let row">
-              {{row[column].brand | transformDataTable:column}}
+                @if(row[column].brand){
+                  {{row[column].brand | transformDataTable:column}}
+                }@else {
+                  {{row[column] | transformDataTable:column}}
+                }
               </td>
             </ng-container>
           }
